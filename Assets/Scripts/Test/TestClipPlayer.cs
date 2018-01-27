@@ -35,16 +35,23 @@ public class TestClipPlayer : MonoBehaviour
         }
 
         // ノード成功
-        if (currentNode != null && Input.GetKeyDown(KeyCode.S))
+        if (currentNode != null)
         {
-            dlg.OnNodeResult(true, currentNode);
+            bool nodeSuccess = (currentNode.type == 0) ? dlg.IsHit() : dlg.IsClap();
 
-            if(Input.GetKey(KeyCode.P))
+            if (Input.GetKey(KeyCode.Space)) { nodeSuccess = true; } // デバッグ用
+
+            if(nodeSuccess)
             {
-                dlg.OnPhraseResult(true, currentNode);
-            }
+                dlg.OnNodeResult(true, currentNode);
 
-            currentNode = null;
+                if (Input.GetKey(KeyCode.P))
+                {
+                    dlg.OnPhraseResult(true, currentNode);
+                }
+
+                currentNode = null;
+            }
         }
 
         // ノード失敗
@@ -63,7 +70,11 @@ public class TestClipPlayer : MonoBehaviour
         // ノード生成
 		if(Time.time - time > 3)
         {
-            currentNode = new NodeDetail() { text = "セリフのテスト" };
+            currentNode = new NodeDetail()
+            {
+                text = "セリフのテスト",
+                type = Random.Range(0, 2)
+            };
             dlg.SetupNode(currentNode);
             time = Time.time;
         }

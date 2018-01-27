@@ -5,6 +5,7 @@ using UnityEngine;
 // TODO コンパイル通るように仮定義
 public class NodeDetail
 {
+    public int type = 0;
     public string text = "node";
 }
 

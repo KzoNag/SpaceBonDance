@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StageController : MonoBehaviour, IClipPlayerDelegate
 {
@@ -20,6 +20,29 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
 
     public TestClipPlayer player;
 
+    public RectTransform targetPrefab;
+    private RectTransform[] currentTargets = new RectTransform[2];
+
+    public Text startText;
+    public Text resultText;
+    public GameObject clapText;
+
+    public AudioSource seSource;
+    public AudioClip okClip;
+    public AudioClip ngClip;
+
+    private void Awake()
+    {
+        startText.gameObject.SetActive(false);
+        resultText.gameObject.SetActive(false);
+        DestroyTarget();
+    }
+
+    private void OnDestroy()
+    {
+        DestroyTarget();
+    }
+
     public void Play(ClipData clipData)
     {
         this.clipData = clipData;
@@ -31,8 +54,11 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     {
         State = StageState.StartEvent;
 
+        startText.gameObject.SetActive(true);
+
         yield return new WaitForSeconds(2);
 
+        startText.gameObject.SetActive(false);
         player.Play(this);
 
         State = StageState.Playing;
@@ -43,10 +69,102 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
         State = StageState.Result;
 
         // 成否に応じたリザルト演出
+        resultText.gameObject.SetActive(true);
+        resultText.text = success ? "SUCCESS!!" : "FAILED..";
+
         yield return new WaitForSeconds(3);
 
         IsSuccess = success;
         State = StageState.End;
+    }
+
+    private void StartNext(NodeDetail node)
+    {
+        DestroyTarget();
+
+        if (node.type == 0)
+        {
+            CreateTarget();
+        }
+        else
+        {
+            clapText.SetActive(true);
+        }
+    }
+
+    private void DestroyTarget()
+    {
+        if(clapText != null)
+        {
+            clapText.SetActive(false);
+        }
+
+        if (currentTargets != null)
+        {
+            foreach (var target in currentTargets)
+            {
+                if (target != null)
+                {
+                    Destroy(target.gameObject);
+                }
+            }
+        }
+    }
+
+    private void CreateTarget()
+    {
+        for (int i = 0; i < currentTargets.Length; ++i)
+        {
+            Vector2 position;
+
+            position.x = Random.Range(0.1f, 0.9f);
+            position.y = Random.Range(0.1f, 0.9f);
+
+            currentTargets[i] = CreateTarget(position);
+        }
+    }
+
+    private RectTransform CreateTarget(Vector2 position)
+    {
+        var target = Instantiate(targetPrefab, GameManager.Instance.kinectInput.ShiletteRootTransform);
+
+        target.gameObject.SetActive(true);
+        target.anchoredPosition = ToScreenPosition(position);
+
+        return target;
+    }
+
+    private bool IsHitAll()
+    {
+        for (int i = 0; i < currentTargets.Length; ++i)
+        {
+            if (!IsHit(currentTargets[i])) { return false; }
+        }
+
+        return true;
+    }
+
+    private bool IsHit(RectTransform target)
+    {
+        var normalizedPosition = ToNormalizePosition(target.anchoredPosition);
+
+        return GameManager.Instance.kinectInput.IsHit(normalizedPosition.x, normalizedPosition.y, 50f / 512f);
+    }
+
+    private Vector2 ToScreenPosition(Vector2 position)
+    {
+        return new Vector2(
+            position.x * GameManager.Instance.kinectInput.ShiletteRootTransform.sizeDelta.x,
+            -position.y * GameManager.Instance.kinectInput.ShiletteRootTransform.sizeDelta.y
+            );
+    }
+
+    private Vector2 ToNormalizePosition(Vector2 position)
+    {
+        return new Vector2(
+            position.x / GameManager.Instance.kinectInput.ShiletteRootTransform.sizeDelta.x,
+            -position.y / GameManager.Instance.kinectInput.ShiletteRootTransform.sizeDelta.y
+            );
     }
 
     #region IClipPlayerDelegate
@@ -58,17 +176,22 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
 
     public bool IsHit()
     {
-        return GameManager.Instance.kinectInput.IsHit(0.5f, 0.5f, 50f / 512f);
+        return IsHitAll();
     }
 
     public void SetupNode(NodeDetail node)
     {
-        Debug.Log("SetupNode");
+        StartNext(node);
     }
 
     public void OnNodeResult(bool success, NodeDetail node)
     {
         Debug.Log("OnNodeResult:" + success.ToString());
+
+        DestroyTarget();
+
+        var clip = success ? okClip : ngClip;
+        seSource.PlayOneShot(clip);
     }
 
     public void OnPhraseResult(bool success, NodeDetail pharaseLastNode)
