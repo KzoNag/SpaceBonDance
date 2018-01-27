@@ -144,6 +144,9 @@ public class KinectInput : MonoBehaviour
 
     public bool IsClap()
     {
+        // テスト用
+        if (Input.GetKeyDown(KeyCode.Return)) { return true; }
+
         if (currentBody == null) { return false; }
 
         var leftPosition = currentBody.Joints[JointType.HandLeft].Position.ToVector3();

@@ -11,7 +11,7 @@ public class KinectInputTest : MonoBehaviour
     }
     private InputMode mode;
 
-    public KinectInput kinectInput;
+    public KinectInput kinectInput { get { return GameManager.Instance.kinectInput; } }
 
     public RectTransform targetPrefab;
     private RectTransform[] currentTargets = new RectTransform[2];
@@ -23,9 +23,15 @@ public class KinectInputTest : MonoBehaviour
     {
         StartNext();
 	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    private void OnDestroy()
+    {
+        DestroyTarget();
+        clapText.SetActive(false);
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
         if(mode == InputMode.Pose)
         {
