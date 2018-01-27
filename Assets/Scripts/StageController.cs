@@ -16,9 +16,10 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
 
     public StageState State { get; private set; }
     public bool IsSuccess { get; private set; }
-    private ClipData clipData;
+    private ClipDetail clipData;
 
-    public TestClipPlayer player;
+    public ClipPlayer player;
+    //public TestClipPlayer player;
 
     public RectTransform targetPrefab;
     private RectTransform[] currentTargets = new RectTransform[2];
@@ -45,7 +46,7 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
         DestroyTarget();
     }
 
-    public void Play(ClipData clipData)
+    public void Play(ClipDetail clipData)
     {
         this.clipData = clipData;
 
@@ -61,7 +62,7 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
         yield return new WaitForSeconds(2);
 
         startText.gameObject.SetActive(false);
-        player.Play(this);
+        player.Play(clipData, this);
 
         State = StageState.Playing;
     }
@@ -84,7 +85,7 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     {
         DestroyTarget();
 
-        if (node.type == 0)
+        if (node.Type == NodeType.Pose)
         {
             CreateTarget();
         }
@@ -199,7 +200,7 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
 
         if(success)
         {
-            if (node.type == 1)
+            if (node.Type == NodeType.Clip)
             {
                 gohst.Move(0.1f);
             }
@@ -208,7 +209,7 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
 
     public void OnPhraseResult(bool success, NodeDetail pharaseLastNode)
     {
-        Debug.Log("OnPhraseResult:" + success.ToString() + ", " + pharaseLastNode.text);
+        Debug.Log("OnPhraseResult:" + success.ToString() + ", " + pharaseLastNode.Text);
     }
 
     public void OnClipResult(bool success)

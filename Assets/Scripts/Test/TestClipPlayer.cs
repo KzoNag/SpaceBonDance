@@ -37,7 +37,7 @@ public class TestClipPlayer : MonoBehaviour
         // ノード成功
         if (currentNode != null)
         {
-            bool nodeSuccess = (currentNode.type == 0) ? dlg.IsHit() : dlg.IsClap();
+            bool nodeSuccess = (currentNode.Type == NodeType.Pose) ? dlg.IsHit() : dlg.IsClap();
 
             if (Input.GetKey(KeyCode.Space)) { nodeSuccess = true; } // デバッグ用
 
@@ -72,8 +72,8 @@ public class TestClipPlayer : MonoBehaviour
         {
             currentNode = new NodeDetail()
             {
-                text = "セリフのテスト",
-                type = Random.Range(0, 2)
+                Text = "セリフのテスト",
+                Type = (NodeType)Random.Range(0, 2)
             };
             dlg.SetupNode(currentNode);
             time = Time.time;

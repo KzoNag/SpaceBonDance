@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO コンパイル通るように仮定義
-public class NodeDetail
-{
-    public int type = 0;
-    public string text = "node";
-}
-
 public interface IClipPlayerDelegate
 {
     // クラップしたかどうか
@@ -54,7 +47,7 @@ public class DummyClipPlayerDelegate : IClipPlayerDelegate
 
     public void OnPhraseResult(bool success, NodeDetail pharaseLastNode)
     {
-        Debug.Log("OnPhraseResult:" + success.ToString() + ", " + pharaseLastNode.text);
+        Debug.Log("OnPhraseResult:" + success.ToString() + ", " + pharaseLastNode.Text);
     }
 
     public void OnClipResult(bool success)

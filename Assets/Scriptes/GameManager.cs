@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public ClipData[] clipDatas;
+    public ClipDetail[] clipDatas;
 
     private int stageIndex;
 
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
                 var clipData = clipDatas[i];
 
                 // ステージタイトル
-                yield return StartCoroutine(LoadScecneAsync("StageTitle", () => { SetupStageTitle(i + 1, clipData.title); }));
+                yield return StartCoroutine(LoadScecneAsync("StageTitle", () => { SetupStageTitle(i + 1, clipData.Title); }));
                 yield return new WaitForSeconds(3);
 
                 StageController stageController = null;
@@ -159,10 +159,4 @@ public class GameManager : MonoBehaviour
 
         fadeGroup.alpha = to;
     }
-}
-
-[System.Serializable]
-public class ClipData
-{
-    public string title;
 }

@@ -439,8 +439,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clipDatas:
-  - title: "\u30AB\u30CD\u30B3\u30EA\u30A2\u30F3\u306E\u6C42\u5A5A"
-  - title: "\u5B87\u5B99\u3078"
+  - Bpm: 120
+    BeatCount: 8
+    ClipName: Bon oodori9
+    Title: "\u30AB\u30CD\u30B3\u30EA\u30A2\u30F3\u306E\u6C42\u5A5A"
+    csv: {fileID: 4900000, guid: 0a6591c78b8e5473abe94c055fa16cb9, type: 3}
+  - Bpm: 140
+    BeatCount: 8
+    ClipName: Space Reikai Rocket
+    Title: "\u5B87\u5B99\u3078"
+    csv: {fileID: 4900000, guid: 0a6591c78b8e5473abe94c055fa16cb9, type: 3}
   kinectInput: {fileID: 1910997087}
   fadeGroup: {fileID: 989746764}
 --- !u!1 &1243515614
