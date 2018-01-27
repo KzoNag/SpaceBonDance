@@ -429,16 +429,59 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!1 &237786308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 237786309}
+  - component: {fileID: 237786310}
+  m_Layer: 0
+  m_Name: Gohst
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &237786309
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 237786308}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -2.46, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1199163616}
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &237786310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 237786308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f74b1ebe7d96b0488b953fc0bf02972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1199163615}
+  speed: 0.3
 --- !u!1001 &526315226
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 237786309}
     m_Modifications:
     - target: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -446,7 +489,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
       propertyPath: m_LocalRotation.x
@@ -454,7 +497,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7069102
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
       propertyPath: m_LocalRotation.z
@@ -462,15 +505,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7073033
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 89.968
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 13700004, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -480,6 +523,18 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ece9e420bcc66564ab55d5b89af59d1f, type: 2}
+    - target: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7d530b6bc9df0704b817bd5289266947, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
   m_IsPrefabParent: 0
@@ -769,6 +824,7 @@ MonoBehaviour:
   seSource: {fileID: 117429858}
   okClip: {fileID: 8300000, guid: cc1db9447bb1ebf4b835b60cbc176fbc, type: 3}
   ngClip: {fileID: 8300000, guid: 9a44cffa9eeefc940ba0921a364f6293, type: 3}
+  gohst: {fileID: 237786310}
 --- !u!114 &997925908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -842,6 +898,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1199163615 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 9500000, guid: 9b77d89664af0104390f93ffd051fbc8,
+    type: 3}
+  m_PrefabInternal: {fileID: 526315226}
+--- !u!4 &1199163616 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400008, guid: 9b77d89664af0104390f93ffd051fbc8, type: 3}
+  m_PrefabInternal: {fileID: 526315226}
 --- !u!1001 &1316766785
 Prefab:
   m_ObjectHideFlags: 0

@@ -31,6 +31,8 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     public AudioClip okClip;
     public AudioClip ngClip;
 
+    public Gohst gohst;
+
     private void Awake()
     {
         startText.gameObject.SetActive(false);
@@ -89,6 +91,8 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
         else
         {
             clapText.SetActive(true);
+
+            gohst.Clap();
         }
     }
 
@@ -192,6 +196,14 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
 
         var clip = success ? okClip : ngClip;
         seSource.PlayOneShot(clip);
+
+        if(success)
+        {
+            if (node.type == 1)
+            {
+                gohst.Move(0.1f);
+            }
+        }
     }
 
     public void OnPhraseResult(bool success, NodeDetail pharaseLastNode)
