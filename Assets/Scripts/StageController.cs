@@ -106,11 +106,12 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
 
         if (currentTargets != null)
         {
-            foreach (var target in currentTargets)
+            for (int i=0; i<currentTargets.Length; ++i)
             {
-                if (target != null)
+                if (currentTargets[i] != null)
                 {
-                    Destroy(target.gameObject);
+                    Destroy(currentTargets[i].gameObject);
+                    currentTargets[i] = null;
                 }
             }
         }
@@ -151,6 +152,8 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
 
     private bool IsHit(RectTransform target)
     {
+        if (target == null) { return false; }
+
         var normalizedPosition = ToNormalizePosition(target.anchoredPosition);
 
         return GameManager.Instance.kinectInput.IsHit(normalizedPosition.x, normalizedPosition.y, 50f / 512f);
@@ -200,7 +203,7 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
 
         if(success)
         {
-            if (node.Type == NodeType.Clip)
+            if (node.Type == NodeType.Clap)
             {
                 gohst.Move(0.1f);
             }
