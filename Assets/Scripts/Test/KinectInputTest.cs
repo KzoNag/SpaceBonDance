@@ -117,8 +117,6 @@ public class KinectInputTest : MonoBehaviour
     {
         var normalizedPosition = ToNormalizePosition(target.anchoredPosition);
 
-        Debug.LogFormat("###Target {0:0.00}, {1:0.00}", normalizedPosition.x, normalizedPosition.y);
-
         return kinectInput.IsHit(normalizedPosition.x, normalizedPosition.y, 50f / 512f);
     }
 

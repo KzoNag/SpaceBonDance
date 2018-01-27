@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,8 +22,17 @@ public class GameManager : MonoBehaviour
 
     public KinectInput kinectInput;
 
-	// Use this for initialization
-	IEnumerator Start ()
+    public CanvasGroup fadeGroup;
+    private const float FadeTime = 2.0f;
+
+    // Use this for initialization
+    private void Awake()
+    {
+        // 黒状態から開始
+        fadeGroup.alpha = 1.0f;
+    }
+
+    IEnumerator Start ()
     {
         while(true)
         {
@@ -94,6 +104,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator LoadScecneAsync(string sceneName)
     {
         // 暗転
+        yield return StartCoroutine(FadeOut());
 
         // Core以外をアンロード
         for(int i=0; i< SceneManager.sceneCount; ++i)
@@ -109,7 +120,32 @@ public class GameManager : MonoBehaviour
         yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
         // 明転
+        yield return StartCoroutine(FadeIn());
+    }
 
+    private IEnumerator FadeIn()
+    {
+        return Fade(0.0f, FadeTime);
+    }
+
+    private IEnumerator FadeOut()
+    {
+        return Fade(1.0f, FadeTime);
+    }
+
+    private IEnumerator Fade(float to, float duration)
+    {
+        float alpha = fadeGroup.alpha;
+        float startTime = Time.time;
+
+        while(Mathf.Abs(to - fadeGroup.alpha) > 0.001f)
+        {
+            fadeGroup.alpha = Mathf.Lerp(alpha, to, (Time.time - startTime) / duration);
+
+            yield return null;
+        }
+
+        fadeGroup.alpha = to;
     }
 }
 

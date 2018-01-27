@@ -140,11 +140,7 @@ public class KinectInput : MonoBehaviour
         normalizedScreenPosition.x = (float)screenPosition.x / KinectManager.Instance.DepthFrameDescription.Width;
         normalizedScreenPosition.y = (float)screenPosition.y / KinectManager.Instance.DepthFrameDescription.Height;
 
-        Debug.LogFormat("###KinectInput {0:0.00}, {1:0.00}", normalizedScreenPosition.x, normalizedScreenPosition.y);
-
         var distance = Vector2.Distance(new Vector2(x, y), normalizedScreenPosition);
-
-        Debug.LogFormat("###Distance {0:0.00}", distance);
 
         return distance < radius;
     }
