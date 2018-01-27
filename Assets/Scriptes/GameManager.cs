@@ -53,25 +53,21 @@ public class GameManager : MonoBehaviour
                 yield return StartCoroutine(LoadScecneAsync("StageTitle", () => { SetupStageTitle(i + 1, clipData.title); }));
                 yield return new WaitForSeconds(3);
 
-                yield return StartCoroutine(LoadScecneAsync("Stage"));
+                StageController stageController = null;
+                yield return StartCoroutine(LoadScecneAsync("Stage", () => 
+                {
+                    // ステージコントローラー取得
+                    stageController = FindObjectOfType<StageController>();
+                }));
 
-                // ステージコントローラー取得
-                bool stageClear = false;
+                // ステージ開始
+                stageController.Play(clipData);
 
                 // ステージ終了まで監視
-                while(true)
-                {
-                    if(Input.GetKeyDown(KeyCode.S))
-                    {
-                        stageClear = true;
-                        break;
-                    }
-                    else if(Input.GetKeyDown(KeyCode.F))
-                    {
-                        break;
-                    }
-                    yield return null;
-                }
+                yield return new WaitUntil(() => stageController.State == StageController.StageState.End);
+
+                // ステージ成否
+                bool stageClear = stageController.IsSuccess;
 
                 // 失敗ならループ終了
                 if(!stageClear)
