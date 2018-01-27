@@ -83,6 +83,11 @@ public class KinectInput : MonoBehaviour
 
         BodyIndexTexture.SetPixels32(bodyIndexColorData);
         BodyIndexTexture.Apply();
+
+        if(!shiletteImage.enabled)
+        {
+            shiletteImage.enabled = true;
+        }
     }
 
     private void Instance_BodyArrived(Body[] bodies)
