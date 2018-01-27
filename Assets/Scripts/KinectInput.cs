@@ -29,6 +29,10 @@ public class KinectInput : MonoBehaviour
 
     private Body currentBody;
 
+    private bool isPrevClap;
+    private bool isClap;
+    public bool IsClap { get { return isClap && !isPrevClap; } }
+
     // Use this for initialization
     void Start ()
     {
@@ -101,6 +105,9 @@ public class KinectInput : MonoBehaviour
         {
             currentBody = currentBodies.FirstOrDefault<Body>(_body => _body.IsTracked);
         }
+
+        isPrevClap = isClap;
+        isClap = CheckClap();
     }
 
     public bool IsHit(float x, float y, float radius)
@@ -142,7 +149,7 @@ public class KinectInput : MonoBehaviour
         return distance < radius;
     }
 
-    public bool IsClap()
+    private bool CheckClap()
     {
         // テスト用
         if (Input.GetKeyDown(KeyCode.Return)) { return true; }

@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
             yield return StartCoroutine(LoadScecneAsync("Title"));
 
             // タイトル終了監視？
-            yield return new WaitUntil(() => kinectInput.IsClap());
+            yield return new WaitUntil(() => kinectInput.IsClap);
 
             // ステージループ
             for (int i=0; i < clipDatas.Length; ++i)
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
                 yield return StartCoroutine(LoadScecneAsync("End"));
 
                 // エンディング終了監視？
-                yield return new WaitUntil(() => kinectInput.IsClap());
+                yield return new WaitUntil(() => kinectInput.IsClap);
             }
 
             yield return null;

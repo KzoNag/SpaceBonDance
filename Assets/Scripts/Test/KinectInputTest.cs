@@ -42,7 +42,7 @@ public class KinectInputTest : MonoBehaviour
         }
         else
         {
-            if(kinectInput.IsClap())
+            if(kinectInput.IsClap)
             {
                 StartNext();
             }
