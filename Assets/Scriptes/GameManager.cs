@@ -49,9 +49,11 @@ public class GameManager : MonoBehaviour
             {
                 var clipData = clipDatas[i];
 
-                yield return StartCoroutine(LoadScecneAsync("Stage"));
+                // ステージタイトル
+                yield return StartCoroutine(LoadScecneAsync("StageTitle", () => { SetupStageTitle(i + 1, clipData.title); }));
+                yield return new WaitForSeconds(3);
 
-                yield return null;
+                yield return StartCoroutine(LoadScecneAsync("Stage"));
 
                 // ステージコントローラー取得
                 bool stageClear = false;
@@ -101,7 +103,13 @@ public class GameManager : MonoBehaviour
 		
 	}
 
-    private IEnumerator LoadScecneAsync(string sceneName)
+    private void SetupStageTitle(int stageIndex, string title)
+    {
+        var stageTitle = FindObjectOfType<StageTitle>();
+        stageTitle.Setup(stageIndex, title);
+    }
+
+    private IEnumerator LoadScecneAsync(string sceneName, System.Action onLoad = null)
     {
         // 暗転
         yield return StartCoroutine(FadeOut());
@@ -118,6 +126,14 @@ public class GameManager : MonoBehaviour
 
         // 指定シーンをロード
         yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+        yield return null;
+
+        // ロードイベント実行
+        if(onLoad != null)
+        {
+            onLoad();
+        }
 
         // 明転
         yield return StartCoroutine(FadeIn());
