@@ -19,7 +19,7 @@ public class NodeDetail
 
     public bool DeleteTime (float time, ClipDetail clipdata)
 	{
-		float deleteTime = clipdata.GetTime(Measure, Beat + BeatCount);
+		float deleteTime = clipdata.GetTime(Measure, Beat + BeatCount, this);
 
         return (deleteTime < time);
 	}
@@ -27,8 +27,8 @@ public class NodeDetail
 
 	public float LimitTime01(float time, ClipDetail clipdata)
 	{
-		float deleteTime = clipdata.GetTime (Measure, Beat + BeatCount);
-		float startTime = clipdata.GetTime (Measure, Beat);
+		float deleteTime = clipdata.GetTime (Measure, Beat + BeatCount, this);
+		float startTime = clipdata.GetTime (Measure, Beat, this);
 
 		return (time - startTime) / (deleteTime - startTime);
 	}

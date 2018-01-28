@@ -123,7 +123,7 @@ public class ClipPlayer : MonoBehaviour
 
             _nextNode = _clipData.nodeDatas [_nodeCount];
 
-			float nextNodeTime = _clipData.GetTime(_nextNode.Measure, _nextNode.Beat);
+			float nextNodeTime = _clipData.GetTime(_nextNode.Measure, _nextNode.Beat, _nextNode);
 
 			// 時間経過でノードを配置
 			if (nextNodeTime <= _time && _currentNodes[_nodeCount] == null) {
@@ -139,7 +139,7 @@ public class ClipPlayer : MonoBehaviour
 					_nodeCount++;
 				}
 
-				Debug.LogFormat ("[{0}] Measure={1}, StartBeat={2}, BeatCount={3}, NodeStartTime={4}, NodeEndTime={5}", _nodeCount, _nextNode.Measure, _nextNode.Beat, _nextNode.BeatCount, nextNodeTime, _clipData.GetTime(_nextNode.Measure, _nextNode.Beat + _nextNode.BeatCount));
+				//Debug.LogFormat ("[{0}] Measure={1}, StartBeat={2}, BeatCount={3}, NodeStartTime={4}, NodeEndTime={5}", _nodeCount, _nextNode.Measure, _nextNode.Beat, _nextNode.BeatCount, nextNodeTime, _clipData.GetTime(_nextNode.Measure, _nextNode.Beat + _nextNode.BeatCount));
 			}
 		}
 	}

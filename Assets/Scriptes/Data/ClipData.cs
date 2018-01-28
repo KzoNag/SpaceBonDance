@@ -50,10 +50,10 @@ public class ClipDetail
 		nodeDatas.Add (node);
 	}
 
-	public float GetTime(int Measure, int Beat)
+	public float GetTime(int Measure, int Beat, NodeDetail node)
     {
         float ta = (((Measure - 1.0f) * Bpm) / 15.0f);
-        float tb = ((Beat - 1) * 240.0f) / (BeatCount * Bpm);
+		float tb = (((Beat - node.BeatCount) - 1) * 240.0f) / (BeatCount * Bpm);
         return ta + tb;
     }
 }
