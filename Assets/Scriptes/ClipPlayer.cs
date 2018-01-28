@@ -16,6 +16,8 @@ public class ClipPlayer : MonoBehaviour
 
 	private IClipPlayerDelegate dlg;
 
+    private int failCount;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -50,6 +52,7 @@ public class ClipPlayer : MonoBehaviour
                             else
                             {
                                 dlg.OnNodeResult(false, _currentNodes[i]);
+                                failCount++;
                                 _phrase = false;
                             }
 
@@ -104,6 +107,7 @@ public class ClipPlayer : MonoBehaviour
 
                             dlg.OnNodeResult(false, _currentNodes[i]);
                             _phrase = false;
+                            failCount++;
 
                             if (_clipData.nodeDatas[i].Text != "-")
                             {
@@ -141,7 +145,13 @@ public class ClipPlayer : MonoBehaviour
 
 				//Debug.LogFormat ("[{0}] Measure={1}, StartBeat={2}, BeatCount={3}, NodeStartTime={4}, NodeEndTime={5}", _nodeCount, _nextNode.Measure, _nextNode.Beat, _nextNode.BeatCount, nextNodeTime, _clipData.GetTime(_nextNode.Measure, _nextNode.Beat + _nextNode.BeatCount));
 			}
-		}
+
+            if(failCount > 30)
+            {
+                _isPlay = false;
+                dlg.OnClipResult(false);
+            }
+        }
 	}
 
 	public void Play(ClipDetail data, IClipPlayerDelegate clipDelegate)

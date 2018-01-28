@@ -58,7 +58,6 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     public List<RectTransform> poseNodeTargetList;
 
     public Text startText;
-    public Text resultText;
     public GameObject clapText;
 
     public AudioSource seSource;
@@ -71,10 +70,15 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     public BalloonText gohstBalloon;
     public BalloonText kanekoBalloon;
 
+    public GameObject okEffectPrefab;
+    public GameObject ngEffectPrefab;
+
+    public GameObject successObject;
+    public GameObject failedObject;
+
     private void Awake()
     {
         startText.gameObject.SetActive(false);
-        resultText.gameObject.SetActive(false);
 
         GameManager.Instance.kinectInput.TargetCanvas.worldCamera = Camera.main;
     }
@@ -113,8 +117,8 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
         State = StageState.Result;
 
         // 成否に応じたリザルト演出
-        resultText.gameObject.SetActive(true);
-        resultText.text = success ? "SUCCESS!!" : "FAILED..";
+        var obj = success ? successObject : failedObject;
+        obj.SetActive(true);
 
         yield return new WaitForSeconds(3);
 
@@ -226,8 +230,6 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     {
         Debug.Log("OnNodeResult:" + success.ToString());
 
-        RemoveNode(node);
-
         var clip = success ? okClip : ngClip;
         seSource.PlayOneShot(clip);
 
@@ -249,6 +251,17 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
                 kaneko.Move(distance);
             }
         }
+
+        foreach(var circle in nodeList.Where(_info => _info.node == node).SelectMany(_info => _info.circleList))
+        {
+            var effectPrefab = success ? okEffectPrefab : ngEffectPrefab;
+            var effect = Instantiate(effectPrefab);
+            effect.transform.localScale = Vector3.one * (success ? 0.5f : 0.2f);
+            effect.transform.position = circle.Target.position + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), -0.05f);
+            Destroy(effect.gameObject, effect.GetComponent<ParticleSystem>().main.duration + 0.1f);
+        }
+
+        RemoveNode(node);
     }
 
     public void OnPhraseResult(bool success, NodeDetail pharaseLastNode)
