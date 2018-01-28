@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,32 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
         End,
     }
 
+    public class NodeInfo
+    {
+        public NodeDetail node;
+        public List<NodeCircle> circleList = new List<NodeCircle>();
+
+        public bool IsAchive()
+        {
+            if (node.Type == NodeType.Clap)
+            {
+                return GameManager.Instance.kinectInput.IsClap;
+            }
+            else
+            {
+                foreach (var circle in circleList)
+                {
+                    var normalizedPosition = ToNormalizePosition(circle.Target.anchoredPosition);
+                    if (!GameManager.Instance.kinectInput.IsHit(normalizedPosition.x, normalizedPosition.y, 50f / 512f))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+    }
+
     public StageState State { get; private set; }
     public bool IsSuccess { get; private set; }
     private ClipDetail clipData;
@@ -22,7 +49,13 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     //public TestClipPlayer player;
 
     public RectTransform targetPrefab;
-    private RectTransform[] currentTargets = new RectTransform[2];
+    //private RectTransform[] currentTargets = new RectTransform[2];
+
+    public NodeCircle nodePrefab;
+    private List<NodeInfo> nodeList = new List<NodeInfo>();
+
+    public RectTransform clapNodeTarget;
+    public List<RectTransform> poseNodeTargetList;
 
     public Text startText;
     public Text resultText;
@@ -38,12 +71,10 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     {
         startText.gameObject.SetActive(false);
         resultText.gameObject.SetActive(false);
-        DestroyTarget();
     }
 
     private void OnDestroy()
     {
-        DestroyTarget();
     }
 
     public void Play(ClipDetail clipData)
@@ -81,85 +112,57 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
         State = StageState.End;
     }
 
-    private void StartNext(NodeDetail node)
+    private void AddNode(NodeDetail node)
     {
-        DestroyTarget();
+        NodeInfo nodeInfo = new NodeInfo();
 
-        if (node.Type == NodeType.Pose)
+        nodeInfo.node = node;
+
+        if(node.Type == NodeType.Pose)
         {
-            CreateTarget();
+            var randomIndex = Enumerable.Range(0, poseNodeTargetList.Count).OrderBy(_ => System.Guid.NewGuid());
+
+            for(int i=0; i<2; ++i)
+            {
+                var circle = Instantiate(nodePrefab);
+                var target = poseNodeTargetList[randomIndex.ElementAt(i)];
+                circle.Setup(target, node);
+                nodeInfo.circleList.Add(circle);
+            }
         }
         else
         {
-            clapText.SetActive(true);
 
-            gohst.Clap();
         }
+
+        nodeList.Add(nodeInfo);
     }
 
-    private void DestroyTarget()
+    private void RemoveNode(NodeDetail node)
     {
-        if(clapText != null)
+        var nodeInfos = nodeList.Where(_info => _info.node == node);
+        foreach(var info in nodeInfos)
         {
-            clapText.SetActive(false);
-        }
-
-        if (currentTargets != null)
-        {
-            for (int i=0; i<currentTargets.Length; ++i)
+            foreach(var circle in info.circleList)
             {
-                if (currentTargets[i] != null)
-                {
-                    Destroy(currentTargets[i].gameObject);
-                    currentTargets[i] = null;
-                }
+                Destroy(circle.gameObject);
             }
+            info.circleList.Clear();
         }
+        nodeList.RemoveAll(_info => _info.node == node);
     }
 
-    private void CreateTarget()
+    private bool IsHitAll(NodeDetail node)
     {
-        for (int i = 0; i < currentTargets.Length; ++i)
+        foreach(var nodeInfo in nodeList.Where(_info => _info.node == node))
         {
-            Vector2 position;
-
-            position.x = Random.Range(0.1f, 0.9f);
-            position.y = Random.Range(0.1f, 0.9f);
-
-            currentTargets[i] = CreateTarget(position);
-        }
-    }
-
-    private RectTransform CreateTarget(Vector2 position)
-    {
-        var target = Instantiate(targetPrefab, GameManager.Instance.kinectInput.ShiletteRootTransform);
-
-        target.gameObject.SetActive(true);
-        target.anchoredPosition = ToScreenPosition(position);
-
-        return target;
-    }
-
-    private bool IsHitAll()
-    {
-        for (int i = 0; i < currentTargets.Length; ++i)
-        {
-            if (!IsHit(currentTargets[i])) { return false; }
+            if (!nodeInfo.IsAchive()) { return false; }
         }
 
         return true;
     }
 
-    private bool IsHit(RectTransform target)
-    {
-        if (target == null) { return false; }
-
-        var normalizedPosition = ToNormalizePosition(target.anchoredPosition);
-
-        return GameManager.Instance.kinectInput.IsHit(normalizedPosition.x, normalizedPosition.y, 50f / 512f);
-    }
-
-    private Vector2 ToScreenPosition(Vector2 position)
+    private static Vector2 ToScreenPosition(Vector2 position)
     {
         return new Vector2(
             position.x * GameManager.Instance.kinectInput.ShiletteRootTransform.sizeDelta.x,
@@ -167,7 +170,7 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
             );
     }
 
-    private Vector2 ToNormalizePosition(Vector2 position)
+    private static Vector2 ToNormalizePosition(Vector2 position)
     {
         return new Vector2(
             position.x / GameManager.Instance.kinectInput.ShiletteRootTransform.sizeDelta.x,
@@ -182,21 +185,26 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
         return GameManager.Instance.kinectInput.IsClap;
     }
 
-    public bool IsHit()
+    public bool IsHit(NodeDetail node)
     {
-        return IsHitAll();
+        return IsHitAll(node);
     }
 
     public void SetupNode(NodeDetail node)
     {
-        StartNext(node);
+        AddNode(node);
+    }
+
+    public void UpdateNode(NodeDetail node, float rate)
+    {
+
     }
 
     public void OnNodeResult(bool success, NodeDetail node)
     {
         Debug.Log("OnNodeResult:" + success.ToString());
 
-        DestroyTarget();
+        RemoveNode(node);
 
         var clip = success ? okClip : ngClip;
         seSource.PlayOneShot(clip);

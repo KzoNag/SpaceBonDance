@@ -43,7 +43,7 @@ public class ClipPlayer : MonoBehaviour
                             _clipData.nodeDatas[i].isAlive = false;
 
                             // ノードの結果処理
-                            if (dlg.IsHit())
+                            if (dlg.IsHit(_currentNodes[i]))
                             {
                                 dlg.OnNodeResult(true, _currentNodes[i]);
                             }

@@ -37,7 +37,7 @@ public class TestClipPlayer : MonoBehaviour
         // ノード成功
         if (currentNode != null)
         {
-            bool nodeSuccess = (currentNode.Type == NodeType.Pose) ? dlg.IsHit() : dlg.IsClap();
+            bool nodeSuccess = (currentNode.Type == NodeType.Pose) ? dlg.IsHit(currentNode) : dlg.IsClap();
 
             if (Input.GetKey(KeyCode.Space)) { nodeSuccess = true; } // デバッグ用
 

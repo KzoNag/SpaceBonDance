@@ -8,10 +8,13 @@ public interface IClipPlayerDelegate
     bool IsClap();
 
     // ポーズがヒットしたかどうか
-    bool IsHit();
+    bool IsHit(NodeDetail node);
 
     // ノードのセットアップ
     void SetupNode(NodeDetail node);
+
+    // ノードの更新
+    void UpdateNode(NodeDetail node, float rate);
 
     // ノードの結果処理
     void OnNodeResult(bool success, NodeDetail node);
@@ -30,7 +33,7 @@ public class DummyClipPlayerDelegate : IClipPlayerDelegate
         return Input.GetKeyDown(KeyCode.Space);
     }
 
-    public bool IsHit()
+    public bool IsHit(NodeDetail node)
     {
         return Input.GetKeyDown(KeyCode.Return);
     }
@@ -38,6 +41,11 @@ public class DummyClipPlayerDelegate : IClipPlayerDelegate
     public void SetupNode(NodeDetail node)
     {
         Debug.Log("SetupNode");
+    }
+
+    public void UpdateNode(NodeDetail node, float rate)
+    {
+        Debug.Log("UpdateNode : " + rate.ToString("0.00"));
     }
 
     public void OnNodeResult(bool success, NodeDetail node)
