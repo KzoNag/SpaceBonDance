@@ -19,7 +19,6 @@ public class ClipPlayer : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		_isPlay = false;
 		_nodeCount = 0;
         _phrase = true;
 	}
@@ -34,16 +33,17 @@ public class ClipPlayer : MonoBehaviour
             {
                 if (_clipData.nodeDatas[i].isAlive)
                 {
+					dlg.UpdateNode (_currentNodes [i], _currentNodes[i].LimitTime01(_time, _clipData));
+
                     if (_clipData.nodeDatas[i].Type == NodeType.Pose)
                     {
                         // 消滅するタイミングで結果を処理する
                         if (_currentNodes[i].DeleteTime(_time, _clipData))
-                        {
-
+						{
                             _clipData.nodeDatas[i].isAlive = false;
 
                             // ノードの結果処理
-                            if (dlg.IsHit(_currentNodes[i]))
+							if (dlg.IsHit(_currentNodes[i]))
                             {
                                 dlg.OnNodeResult(true, _currentNodes[i]);
                             }
@@ -71,8 +71,7 @@ public class ClipPlayer : MonoBehaviour
                     {
                         // 拍手が決まった！
                         if (dlg.IsClap())
-                        {
-
+						{
                             _clipData.nodeDatas[i].isAlive = false;
 
                             dlg.OnNodeResult(true, _currentNodes[i]);
@@ -100,8 +99,7 @@ public class ClipPlayer : MonoBehaviour
 
                         // 消滅
                         if (_currentNodes[i].DeleteTime(_time, _clipData))
-                        {
-
+						{
                             _clipData.nodeDatas[i].isAlive = false;
 
                             dlg.OnNodeResult(false, _currentNodes[i]);
@@ -126,8 +124,6 @@ public class ClipPlayer : MonoBehaviour
             _nextNode = _clipData.nodeDatas [_nodeCount];
 
 			float nextNodeTime = _clipData.GetTime(_nextNode.Measure, _nextNode.Beat);
-
-			//Debug.Log (ta + " + " + tb + " = " + nextNodeTime);
 
 			// 時間経過でノードを配置
 			if (nextNodeTime <= _time && _currentNodes[_nodeCount] == null) {

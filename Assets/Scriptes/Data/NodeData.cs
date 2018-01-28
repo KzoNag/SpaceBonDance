@@ -23,6 +23,15 @@ public class NodeDetail
 
         return (deleteTime < time);
 	}
+
+
+	public float LimitTime01(float time, ClipDetail clipdata)
+	{
+		float deleteTime = clipdata.GetTime (Measure, Beat + BeatCount);
+		float startTime = clipdata.GetTime (Measure, Beat);
+
+		return (time - startTime) / (deleteTime - startTime);
+	}
 }
 
 

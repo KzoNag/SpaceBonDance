@@ -132,7 +132,10 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
         }
         else
         {
-
+            var circle = Instantiate(nodePrefab);
+            var target = clapNodeTarget;
+            circle.Setup(target, node);
+            nodeInfo.circleList.Add(circle);
         }
 
         nodeList.Add(nodeInfo);
@@ -197,7 +200,16 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
 
     public void UpdateNode(NodeDetail node, float rate)
     {
-
+        for(int i=0; i < nodeList.Count; ++i)
+        {
+            if(nodeList[i].node == node)
+            {
+                for(int j=0; j < nodeList[i].circleList.Count; ++j)
+                {
+                    nodeList[i].circleList[j].Rate = rate;
+                }
+            }
+        }
     }
 
     public void OnNodeResult(bool success, NodeDetail node)

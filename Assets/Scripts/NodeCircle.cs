@@ -25,7 +25,7 @@ public class NodeCircle : MonoBehaviour
         Node = node;
 
         transform.SetParent(parent);
-
+        transform.localPosition = Vector3.zero;
         ((RectTransform)transform).offsetMax = Vector2.zero;
         ((RectTransform)transform).offsetMin = Vector2.zero;
 

@@ -714,7 +714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a775f448532993a468304f0343ad813d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alpha: 0.5
+  alpha: 0.2
   shiletteRootTransform: {fileID: 854008860}
   shiletteImage: {fileID: 922747044}
 --- !u!114 &1910997089
