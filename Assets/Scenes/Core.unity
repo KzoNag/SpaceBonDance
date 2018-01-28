@@ -444,11 +444,6 @@ MonoBehaviour:
     ClipName: "Bon Space Odori \u5B87\u5B99\u30D0\u30FC\u30B8\u30E7\u30F3"
     Title: "\u30AB\u30CD\u30B3\u30EA\u30A2\u30F3\u306E\u6C42\u5A5A"
     csv: {fileID: 4900000, guid: 2820f897f71d89f4e943e0a61b474447, type: 3}
-  - Bpm: 140
-    BeatCount: 8
-    ClipName: Space Reikai Rocket
-    Title: "\u5B87\u5B99\u3078"
-    csv: {fileID: 4900000, guid: 0a6591c78b8e5473abe94c055fa16cb9, type: 3}
   kinectInput: {fileID: 1910997087}
   fadeGroup: {fileID: 989746764}
 --- !u!1 &1243515614

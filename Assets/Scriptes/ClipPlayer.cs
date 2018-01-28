@@ -30,6 +30,17 @@ public class ClipPlayer : MonoBehaviour
 	{
 		if (_isPlay) {
 
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                dlg.OnClipResult(true);
+                _isPlay = false;
+            }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                dlg.OnClipResult(false);
+                _isPlay = false;
+            }
+
             // 出現中のノードを処理
             for (int i = 0; i < _clipData.nodeDatas.Count; i++)
             {

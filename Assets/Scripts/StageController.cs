@@ -63,6 +63,8 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     public AudioSource seSource;
     public AudioClip okClip;
     public AudioClip ngClip;
+    public AudioClip successClip;
+    public AudioClip failedClip;
 
     public Gohst gohst;
     public Kanekorian kaneko;
@@ -114,13 +116,19 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
 
     private IEnumerator Result(bool success)
     {
+        // プレイヤーは削除
+        Destroy(player.gameObject);
+
         State = StageState.Result;
 
         // 成否に応じたリザルト演出
         var obj = success ? successObject : failedObject;
         obj.SetActive(true);
 
-        yield return new WaitForSeconds(3);
+        var se = success ? successClip : failedClip;
+        seSource.PlayOneShot(se);
+
+        yield return new WaitForSeconds(5);
 
         IsSuccess = success;
         State = StageState.End;

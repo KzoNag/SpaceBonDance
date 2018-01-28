@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     public KinectInput kinectInput;
 
     public CanvasGroup fadeGroup;
-    private const float FadeTime = 0.1f;
+    private const float FadeTime = 1.0f;
 
     // Use this for initialization
     private void Awake()

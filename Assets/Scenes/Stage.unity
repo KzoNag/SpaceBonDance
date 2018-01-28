@@ -1533,6 +1533,8 @@ MonoBehaviour:
   seSource: {fileID: 117429858}
   okClip: {fileID: 8300000, guid: cc1db9447bb1ebf4b835b60cbc176fbc, type: 3}
   ngClip: {fileID: 8300000, guid: 9a44cffa9eeefc940ba0921a364f6293, type: 3}
+  successClip: {fileID: 8300000, guid: 0ac36d1452f6a7b4fa08a7499937959d, type: 3}
+  failedClip: {fileID: 8300000, guid: 3432f627b1eb9d74690cac6a4b69ce40, type: 3}
   gohst: {fileID: 237786310}
   kaneko: {fileID: 1104257182}
   gohstBalloon: {fileID: 23589575}
@@ -2635,7 +2637,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 1a181b8219f9f9c4f9c21de298cce5f3, type: 3}
     m_FontSize: 70
     m_FontStyle: 0
     m_BestFit: 0
@@ -2866,7 +2868,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 713.9987, y: 19.5}
+  m_AnchoredPosition: {x: 713.99866, y: 19.5}
   m_SizeDelta: {x: 340.95, y: 61}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1795611994
