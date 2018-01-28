@@ -17,21 +17,11 @@ public class NodeDetail
 
 	public bool isAlive = false;
 
-
-	public bool DeleteTime (float time, ClipDetail clipdata)
+    public bool DeleteTime (float time, ClipDetail clipdata)
 	{
-		bool delete = false;
+		float deleteTime = clipdata.GetTime(Measure, Beat + BeatCount);
 
-		float ta = ((((Measure) - 1) * clipdata.Bpm) / 15);
-		float tb = (((Beat + BeatCount) - 1) * 240) / (clipdata.BeatCount * clipdata.Bpm);
-		float deleteTime = ta + tb;
-
-		if (deleteTime < (int)time) {
-			delete = true;
-			isAlive = false;
-		}
-
-		return delete;
+        return (deleteTime < time);
 	}
 }
 

@@ -441,9 +441,9 @@ MonoBehaviour:
   clipDatas:
   - Bpm: 60
     BeatCount: 8
-    ClipName: Bon oodori9
+    ClipName: "Bon Space Odori \u5B87\u5B99\u30D0\u30FC\u30B8\u30E7\u30F3"
     Title: "\u30AB\u30CD\u30B3\u30EA\u30A2\u30F3\u306E\u6C42\u5A5A"
-    csv: {fileID: 4900000, guid: 024cf31c71753ae42b58bc7a5cbb96fc, type: 3}
+    csv: {fileID: 4900000, guid: 2820f897f71d89f4e943e0a61b474447, type: 3}
   - Bpm: 140
     BeatCount: 8
     ClipName: Space Reikai Rocket

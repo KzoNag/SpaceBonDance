@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     public KinectInput kinectInput;
 
     public CanvasGroup fadeGroup;
-    private const float FadeTime = 2.0f;
+    private const float FadeTime = 0.1f;
 
     // Use this for initialization
     private void Awake()
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
                 // ステージタイトル
                 yield return StartCoroutine(LoadScecneAsync("StageTitle", () => { SetupStageTitle(i + 1, clipData.Title); }));
-                yield return new WaitForSeconds(3);
+                yield return StartCoroutine(WaitForSeconds(3));
 
                 StageController stageController = null;
                 yield return StartCoroutine(LoadScecneAsync("Stage", () => 
@@ -158,5 +158,17 @@ public class GameManager : MonoBehaviour
         }
 
         fadeGroup.alpha = to;
+    }
+
+    private IEnumerator WaitForSeconds(float second)
+    {
+        float startTime = Time.time;
+
+        while(Time.time - startTime < second)
+        {
+            if (Input.GetKeyDown(KeyCode.Return)) { break; }
+
+            yield return null;
+        }
     }
 }
