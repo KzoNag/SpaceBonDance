@@ -68,6 +68,9 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     public Gohst gohst;
     public Kanekorian kaneko;
 
+    public BalloonText gohstBalloon;
+    public BalloonText kanekoBalloon;
+
     private void Awake()
     {
         startText.gameObject.SetActive(false);
@@ -245,6 +248,17 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     public void OnPhraseResult(bool success, NodeDetail pharaseLastNode)
     {
         Debug.Log("OnPhraseResult:" + success.ToString() + ", " + pharaseLastNode.Text);
+
+        if (!success) { return; }
+
+        if(pharaseLastNode.Type == NodeType.Clap)
+        {
+            gohstBalloon.Show(pharaseLastNode.Text);
+        }
+        else
+        {
+            kanekoBalloon.Show(pharaseLastNode.Text);
+        }
     }
 
     public void OnClipResult(bool success)
