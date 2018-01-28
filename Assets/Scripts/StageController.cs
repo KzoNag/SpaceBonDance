@@ -75,10 +75,16 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     {
         startText.gameObject.SetActive(false);
         resultText.gameObject.SetActive(false);
+
+        GameManager.Instance.kinectInput.TargetCanvas.worldCamera = Camera.main;
     }
 
     private void OnDestroy()
     {
+        if(GameManager.Instance != null)
+        {
+            GameManager.Instance.kinectInput.TargetCanvas.worldCamera = null;
+        }
     }
 
     public void Play(ClipDetail clipData)

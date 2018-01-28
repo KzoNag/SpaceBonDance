@@ -17,6 +17,7 @@ public class KinectInput : MonoBehaviour
 
     [SerializeField]
     private RawImage shiletteImage;
+    public Canvas TargetCanvas;
 
     public Texture2D BodyIndexTexture { get; private set; }
     private Color32[] bodyIndexColorData;

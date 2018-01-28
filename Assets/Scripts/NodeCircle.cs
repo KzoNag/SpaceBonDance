@@ -15,7 +15,7 @@ public class NodeCircle : MonoBehaviour
         set
         {
             rate = value;
-            transform.localScale = Mathf.Lerp(2, 1, rate) * Vector3.one;
+            transform.localScale = Mathf.Lerp(3, 1, rate) * Vector3.one;
             image.color = new Color(image.color.r, image.color.g, image.color.b, rate);
         }
     }
@@ -26,6 +26,7 @@ public class NodeCircle : MonoBehaviour
 
         transform.SetParent(parent);
         transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
         ((RectTransform)transform).offsetMax = Vector2.zero;
         ((RectTransform)transform).offsetMin = Vector2.zero;
 
