@@ -66,6 +66,7 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
     public AudioClip ngClip;
 
     public Gohst gohst;
+    public Kanekorian kaneko;
 
     private void Awake()
     {
@@ -221,11 +222,22 @@ public class StageController : MonoBehaviour, IClipPlayerDelegate
         var clip = success ? okClip : ngClip;
         seSource.PlayOneShot(clip);
 
-        if(success)
+        float distance = 0.1f;
+
+        if (node.Type == NodeType.Clap)
         {
-            if (node.Type == NodeType.Clap)
+            gohst.Clap();
+            if (success)
             {
-                gohst.Move(0.1f);
+                gohst.Move(distance);
+            }
+        }
+        else
+        {
+            kaneko.Pose();
+            if(success)
+            {
+                kaneko.Move(distance);
             }
         }
     }
