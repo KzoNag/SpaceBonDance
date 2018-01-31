@@ -17,7 +17,7 @@ public class ClipDetail
 
 	public void CreateNode () 
 	{
-		string[,] nodeArray = CSVIO.Read ("/CSV/" + csv.name + ".csv");
+		string[,] nodeArray = CSVIO.Read (Application.streamingAssetsPath + "/CSV/" + csv.name + ".csv");
 		nodeDatas = new List<NodeDetail> ();
 
 		for (int i = 1; i < nodeArray.GetLength(0); i++) {

@@ -8,7 +8,7 @@ public class CSVIO
 	public static string[,] Read (string path) {
 		string[,] data;
 
-		StreamReader sr = new StreamReader (Application.dataPath + path);
+		StreamReader sr = new StreamReader (path);
 		string strStream = sr.ReadToEnd ();
 
 		System.StringSplitOptions option = System.StringSplitOptions.RemoveEmptyEntries;
