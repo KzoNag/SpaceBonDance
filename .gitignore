@@ -3,5 +3,5 @@
 *.suo
 Library/
 Temp/
-Resources/
 Builds/
+Develop/
